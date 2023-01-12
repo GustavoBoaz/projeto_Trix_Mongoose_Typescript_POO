@@ -16,6 +16,7 @@ class TransferService {
         payment.amount,
         payment.key,
         payment.id,
+        payment.status,
       );
     }
     return null;
@@ -31,7 +32,7 @@ class TransferService {
 
   public async undoTransfer(id: string, payment: IPayment) {
     if (!this.isValidKey(payment.key)) throw new Error('Invalid Key!');
-    
+
     const paymentODM = new PaymentODM();
     return paymentODM.update(id, payment);
   }
