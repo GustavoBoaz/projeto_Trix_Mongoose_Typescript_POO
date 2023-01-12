@@ -36,6 +36,14 @@ class TransferService {
     const paymentODM = new PaymentODM();
     return paymentODM.update(id, payment);
   }
+
+  public async getAllTransfers() {
+    const paymentODM = new PaymentODM();
+    const payments = await paymentODM.find();
+    const paymentArray = payments.map((payment) =>
+      this.createPaymentDomain(payment));
+    return paymentArray;
+  }
 }
 
 export default TransferService;
