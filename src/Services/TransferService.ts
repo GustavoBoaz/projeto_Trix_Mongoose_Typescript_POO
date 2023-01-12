@@ -28,6 +28,13 @@ class TransferService {
     const newPayment = await paymentODM.create(payment);
     return this.createPaymentDomain(newPayment);
   }
+
+  public async undoTransfer(id: string, payment: IPayment) {
+    if (!this.isValidKey(payment.key)) throw new Error('Invalid Key!');
+    
+    const paymentODM = new PaymentODM();
+    return paymentODM.update(id, payment);
+  }
 }
 
 export default TransferService;
