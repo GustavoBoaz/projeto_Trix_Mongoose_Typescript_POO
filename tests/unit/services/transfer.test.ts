@@ -4,6 +4,7 @@ import Sinon from 'sinon';
 import IPayment from '../../../src/Interfaces/IPayment';
 import TransferService from '../../../src/Services/TransferService';
 import Payment from '../../../src/Domain/Payment';
+import Key from '../../../src/Domain/Key/Key';
 
 describe('Deveria criar uma transferência TRIX', function () {
   it('Deveria criar uma transferência TRIX com SUCESSO', async function () {
@@ -21,7 +22,14 @@ describe('Deveria criar uma transferência TRIX', function () {
       '858.898.670-16',
       '63319d80feb9f483ee823ac5',
     );
+    const outputKey: Key = new Key(    // Cria a chave com o formato da classe de domínio Key
+      '858.898.670-16',
+      'Wozniak',
+      'cpf',
+      '633ec9fa3df977e30e993492',
+    );
     Sinon.stub(Model, 'create').resolves(paymentOutput);
+    Sinon.stub(Model, 'findOne').resolves(outputKey);  // Stub para a busca da chave no banco
   
     // Act
     const service = new TransferService();
@@ -41,6 +49,7 @@ describe('Deveria criar uma transferência TRIX', function () {
     };
 
     Sinon.stub(Model, 'create').resolves({});
+    Sinon.stub(Model, 'findOne').resolves(false); // Stub para busca da chave com retorno false
 
     // Act
     try {
@@ -48,7 +57,7 @@ describe('Deveria criar uma transferência TRIX', function () {
       await service.transfer(paymentInput);
     } catch (error) {
     // Assert
-      expect((error as Error).message).to.be.equal('Invalid Key!');
+      expect((error as Error).message).to.be.equal('Key not found');
     }
   });
 
