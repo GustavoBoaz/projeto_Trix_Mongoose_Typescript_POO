@@ -29,4 +29,9 @@ routes.post(
   (req, res, next) => new KeyController(req, res, next).create(),
 );
 
+routes.get(
+  '/key/:value',
+  (req, res, next) => new KeyController(req, res, next).getByValue(),
+);
+
 export default routes;
