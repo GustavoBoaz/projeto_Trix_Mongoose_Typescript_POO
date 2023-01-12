@@ -3,6 +3,7 @@ import KeyTypes from '../../Utils/KeyTypes';
 import CPF from './CPF';
 import PhoneNumber from './PhoneNumber';
 import IValid from '../../Interfaces/IValid';
+import Mail from './Mail';
 
 class KeyFactory {
   public static create(key: IKey): IKey & IValid {
@@ -11,6 +12,9 @@ class KeyFactory {
     }
     if (key.type === KeyTypes.PHONE_NUMBER) {
       return new PhoneNumber(key.value, key.owner);
+    }
+    if (key.type === KeyTypes.MAIL) {
+      return new Mail(key.value, key.owner);
     }
     throw new Error('Invalid Key Type!');
   }
