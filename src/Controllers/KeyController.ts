@@ -29,6 +29,12 @@ class KeyController {
       this.next(error);
     }
   }
+
+  public async getByValue() {
+    const { value } = this.req.params;
+    const key = await this.service.getByValue(value);
+    return this.res.status(200).json(key);
+  }
 }
 
 export default KeyController;
