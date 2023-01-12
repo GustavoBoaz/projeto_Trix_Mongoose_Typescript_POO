@@ -46,6 +46,11 @@ class TransferController {
       this.next(error);
     }
   }
- }
+
+  public async getAllTransfers() {
+    const payments = await this.service.getAllTransfers();
+    return this.res.status(200).json(payments);
+  }
+}
   
 export default TransferController;
