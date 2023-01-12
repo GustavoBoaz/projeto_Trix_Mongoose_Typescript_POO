@@ -1,6 +1,7 @@
 import Payment from '../Domain/Payment';
 import IPayment from '../Interfaces/IPayment';
 import PaymentODM from '../Models/PaymentODM';
+import KeyService from './KeyService';
 
 class TransferService {
   private isValidKey(key: string): boolean {
@@ -23,11 +24,13 @@ class TransferService {
   }
 
   public async transfer(payment: IPayment) {
-    if (!this.isValidKey(payment.key)) throw new Error('Invalid Key!');
-
-    const paymentODM = new PaymentODM();
-    const newPayment = await paymentODM.create(payment);
-    return this.createPaymentDomain(newPayment);
+    const keyService = new KeyService();
+    if (await keyService.getByValue(payment.key)) {
+      const paymentODM = new PaymentODM();
+      const newPayment = await paymentODM.create(payment);
+      return this.createPaymentDomain(newPayment);
+    }
+    throw new Error('Key not found');
   }
 
   public async undoTransfer(id: string, payment: IPayment) {
