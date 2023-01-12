@@ -51,6 +51,12 @@ class TransferController {
     const payments = await this.service.getAllTransfers();
     return this.res.status(200).json(payments);
   }
+
+  public async getByKey() {
+    const { key } = this.req.params;
+    const payment = await this.service.getByKey(key);
+    return this.res.status(200).json(payment);
+  }
 }
   
 export default TransferController;
