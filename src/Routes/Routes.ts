@@ -13,4 +13,9 @@ routes.patch(
   (req, res, next) => new TransferController(req, res, next).reversalRequest(),
 );
 
+routes.get(
+  '/transfer',
+  (req, res, next) => new TransferController(req, res, next).getAllTransfers(),
+);
+
 export default routes;
